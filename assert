@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+#pragma warning(disable:4996)
+
+int ignore_assert = 0;
+#define assert(a,b) if(!(a)) assert_for_a((b),__LINE__,__FILE__);
+#define error(a,b,c) if(!(a)) fatal_error((b),__LINE__,__FILE__,(c));
+int assert_for_a(char* message, int line, char* file)
+{
+	if (ignore_assert == 1)
+	{
+		return 0;
+	}
+	int massive;
+	printf("%s %d %s\n", message, line, file);
+	printf("if ALL assert == 0\n");
+	printf("if current assert == 1\n");
+	printf("if exit == 2\n");
+	scanf("%d", &massive);
+	if (massive == 0)
+	{
+		ignore_assert = 1;
+		return 0;
+	}
+	if (massive == 1)
+	{
+		return 0;
+	}
+	if (massive == 2)
+	{
+		exit(0);
+	}
+}
+void fatal_error(char* message, int line, char* file, int value)
+{
+	printf("%s %d %s\n", message, line, file);
+	system("pause");
+	exit(value);
+}
+int main()
+{
+	assert(0,"hello");
+	assert(1, "good");
+	assert(0, "world");
+	error(0,"privet",10);
+	return 0;
+}
